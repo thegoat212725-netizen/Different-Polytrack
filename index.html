@@ -1,52 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Polytrack Racing Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
 </head>
 <body>
-    <div class="container">
-        <h1>🏁 Polytrack Racing Game</h1>
-        
-        <div id="hud" class="hud">
-            <div class="hud-item">
-                <span class="label">Time:</span>
-                <span id="timer" class="value">0.00</span>s
-            </div>
-            <div class="hud-item">
-                <span class="label">Laps:</span>
-                <span id="laps" class="value">0</span>
-            </div>
-            <div class="hud-item">
-                <span class="label">Speed:</span>
-                <span id="speed" class="value">0</span>
-            </div>
-            <div class="hud-item">
-                <span class="label">Best Lap:</span>
-                <span id="bestLap" class="value">--</span>s
-            </div>
-        </div>
-
-        <div class="canvas-container">
-            <canvas id="gameCanvas" width="900" height="600"></canvas>
-        </div>
-
-        <div class="controls">
-            <p><strong>⬆️ Arrow Up:</strong> Accelerate | <strong>⬇️ Arrow Down:</strong> Brake | <strong>⬅️⬜ Arrows:</strong> Steer</p>
-            <p><strong>SPACE:</strong> Reset Car | <strong>R:</strong> Restart Game</p>
-        </div>
-
-        <div id="gameOver" class="modal hidden">
-            <div class="modal-content">
-                <h2>🏆 Race Complete!</h2>
-                <p>Laps: <span id="finalLaps">0</span></p>
-                <p>Time: <span id="finalTime">0.00</span>s</p>
-                <p>Best Lap: <span id="finalBestLap">--</span>s</p>
-                <button onclick="location.reload()">Play Again</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="game.js"></script>
+    <h1>Welcome to the Homepage</h1>
+    <label for="map-selector">Select a Map:</label>
+    <select id="map-selector">
+        <option value="map1">Map 1</option>
+        <option value="map2">Map 2</option>
+        <option value="map3">Map 3</option>
+    </select>
+    <button id="play-button">Play</button>
 </body>
 </html>
