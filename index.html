@@ -1,157 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Polytrack</title>
-    <style>
-        body {
-            margin: 0;
-            background: #111;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        h1 {
-            margin: 10px 0;
-        }
-
-        #hud {
-            margin-bottom: 10px;
-        }
-
-        #gameCanvas {
-            background: #222;
-            border: 2px solid #fff;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
-    </style>
+    <title>Polytrack Racing Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Polytrack</h1>
+    <div class="container">
+        <h1>🏁 Polytrack Racing Game</h1>
+        
+        <div id="hud" class="hud">
+            <div class="hud-item">
+                <span class="label">Time:</span>
+                <span id="timer" class="value">0.00</span>s
+            </div>
+            <div class="hud-item">
+                <span class="label">Laps:</span>
+                <span id="laps" class="value">0</span>
+            </div>
+            <div class="hud-item">
+                <span class="label">Speed:</span>
+                <span id="speed" class="value">0</span>
+            </div>
+            <div class="hud-item">
+                <span class="label">Best Lap:</span>
+                <span id="bestLap" class="value">--</span>s
+            </div>
+        </div>
 
-    <div id="hud">
-        <span>Time: <span id="timer">0.00</span>s</span>
-        &nbsp;&nbsp;|&nbsp;&nbsp;
-        <span>Laps: <span id="laps">0</span></span>
+        <div class="canvas-container">
+            <canvas id="gameCanvas" width="900" height="600"></canvas>
+        </div>
+
+        <div class="controls">
+            <p><strong>⬆️ Arrow Up:</strong> Accelerate | <strong>⬇️ Arrow Down:</strong> Brake | <strong>⬅️⬜ Arrows:</strong> Steer</p>
+            <p><strong>SPACE:</strong> Reset Car | <strong>R:</strong> Restart Game</p>
+        </div>
+
+        <div id="gameOver" class="modal hidden">
+            <div class="modal-content">
+                <h2>🏆 Race Complete!</h2>
+                <p>Laps: <span id="finalLaps">0</span></p>
+                <p>Time: <span id="finalTime">0.00</span>s</p>
+                <p>Best Lap: <span id="finalBestLap">--</span>s</p>
+                <button onclick="location.reload()">Play Again</button>
+            </div>
+        </div>
     </div>
 
-    <canvas id="gameCanvas" width="900" height="600"></canvas>
-
-    <p>Controls: Arrow keys to drive</p>
-
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-
-        // Car
-        const car = {
-            x: 450,
-            y: 450,
-            angle: -Math.PI / 2,
-            speed: 0
-        };
-
-        let keys = {};
-        let laps = 0;
-        let startTime = Date.now();
-        let lastLapZone = false;
-
-        document.addEventListener("keydown", e => keys[e.key] = true);
-        document.addEventListener("keyup", e => keys[e.key] = false);
-
-        function drawTrack() {
-            // Outer track
-            ctx.fillStyle = "#555";
-            ctx.beginPath();
-            ctx.moveTo(100, 100);
-            ctx.lineTo(800, 100);
-            ctx.lineTo(800, 500);
-            ctx.lineTo(100, 500);
-            ctx.closePath();
-            ctx.fill();
-
-            // Inner hole (grass)
-            ctx.fillStyle = "#111";
-            ctx.beginPath();
-            ctx.moveTo(250, 200);
-            ctx.lineTo(650, 200);
-            ctx.lineTo(650, 400);
-            ctx.lineTo(250, 400);
-            ctx.closePath();
-            ctx.fill();
-
-            // Start/finish line
-            ctx.strokeStyle = "#fff";
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(450, 200);
-            ctx.lineTo(450, 260);
-            ctx.stroke();
-        }
-
-        function drawCar() {
-            ctx.save();
-            ctx.translate(car.x, car.y);
-            ctx.rotate(car.angle);
-            ctx.fillStyle = "red";
-            ctx.fillRect(-15, -30, 30, 60);
-            ctx.restore();
-        }
-
-        function updateCar() {
-            // Controls
-            if (keys["ArrowUp"]) car.speed += 0.2;
-            if (keys["ArrowDown"]) car.speed -= 0.1;
-            if (keys["ArrowLeft"]) car.angle -= 0.05;
-            if (keys["ArrowRight"]) car.angle += 0.05;
-
-            // Friction
-            car.speed *= 0.98;
-
-            // Move
-            car.x += Math.sin(car.angle) * car.speed;
-            car.y -= Math.cos(car.angle) * car.speed;
-
-            // Simple bounds (keep car on screen)
-            if (car.x < 0) car.x = 0;
-            if (car.x > canvas.width) car.x = canvas.width;
-            if (car.y < 0) car.y = 0;
-            if (car.y > canvas.height) car.y = canvas.height;
-        }
-
-        function checkLap() {
-            // Lap zone around start line
-            const inLapZone =
-                car.x > 430 && car.x < 470 &&
-                car.y > 200 && car.y < 260;
-
-            if (inLapZone && !lastLapZone) {
-                laps++;
-                document.getElementById("laps").innerText = laps;
-            }
-
-            lastLapZone = inLapZone;
-        }
-
-        function updateTimer() {
-            const time = ((Date.now() - startTime) / 1000).toFixed(2);
-            document.getElementById("timer").innerText = time;
-        }
-
-        function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            drawTrack();
-            updateCar();
-            drawCar();
-            checkLap();
-            updateTimer();
-
-            requestAnimationFrame(gameLoop);
-        }
-
-        gameLoop();
-    </script>
+    <script src="game.js"></script>
 </body>
 </html>
