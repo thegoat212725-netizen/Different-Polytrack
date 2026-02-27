@@ -1,0 +1,53 @@
+/* styles.css - Polytrack Game Styles */
+
+/* Set the gradient background */
+body {
+    background: linear-gradient(to right, #00ff00, #007700);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Neon green gaming UI theme */
+header, footer, .button {
+    background-color: #00ff00;
+    box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+    color: #000;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.button {
+    animation: pulse 2s infinite;  
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    header, footer, .button {
+        font-size: 0.8em;
+        padding: 8px;
+    }
+}
